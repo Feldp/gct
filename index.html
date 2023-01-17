@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gigachad</title>
+    <link rel="icon" href="./moai.png" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/animatecss/3.5.2/animate.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto+Slab:wght@200;300;400&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sofia+Sans&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <style>
+    span {
+      font-family: "Roboto Slab", serif;
+    }
+    h3 {
+      font-family: "Sofia Sans", sans-serif;
+    }
+    .adonis-blue {
+      filter: sepia(70%) hue-rotate(170deg) saturate(800%);
+    }
+    .adonis {
+      filter: sepia(70%) hue-rotate(180deg);
+    }
+
+    .large-shadow {
+      box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px,
+        rgba(0, 0, 0, 0.22) 0px 10px 10px;
+    }
+
+    #canvas {
+      width: 100%;
+      height: 100%;
+    }
+
+    .progress-moved > div {
+      transition: 0.4s linear;
+    }
+
+    .progress-shadow {
+      box-shadow: rgba(56, 189, 248, 0.5) 0px 48px 100px 0px;
+    }
+  </style>
+
+  <body class="bg-zinc-100">
+    <main id="main" class="">
+      <div
+        id="topLink"
+        class="bg-zinc-800 text-white flex flex-row justify-center align-middle gap-2 p-1.5 transform duration-300 invisible"
+      >
+        <h3>Reach Your Full Potential:</h3>
+        <a
+          class="text-blue-300 -mt-0.5"
+          href="https://discord.com/invite/9pNKaX3GXv"
+          target="_blank"
+          >Discord.gg/9pNKaX3GXv</a
+        >
+      </div>
+      <div class="mx-auto lg:w-4/5">
+        <button
+          id="back"
+          class="top-0 flex flex-row items-center gap-2 p-8 py-4 rob lg:p-4"
+          onclick="prevQA()"
+        >
+          <i class="fa-solid fa-arrow-left"></i> <span>Back</span>
+        </button>
+      </div>
+      <div
+        class="flex flex-col justify-center mx-auto shadow-xl lg:gap-0 lg:w-4/5 lg:rounded-lg wow fadeIn"
+      >
+        <div
+          class="flex flex-col gap-8 p-8 text-white lg:shadow-xl lg:text-2xl bg-gradient-to-br from-zinc-800 to-gray-600 lg:rounded-t-lg"
+        >
+          <div>
+            <div
+              id="progress"
+              class="text-xl font-semibold text-blue-400 lg:text-lg"
+            >
+              <span id="currentQ">0</span>/60
+            </div>
+            <div id="question">
+              <h2 id="question" class="text-3xl font-semibold">
+                Discover if you are a real Gigachad
+              </h2>
+            </div>
+          </div>
+        </div>
+        <div id="answers">
+          <div
+            class="flex flex-col gap-4 px-8 py-4 pb-12 bg-white lg:rounded-b-lg"
+          >
+            <button
+              class="group flex flex-row justify-between items-center gap-8 bg-gray-100 hover:bg-gradient-to-br from-zinc-700 to-gray-600 p-4 rounded-xl border border-zinc-200 shadow-md focus:outline-none transition duration-300 hover:scale-105 lg:hover:scale-x-[102%] wow fadeIn"
+              onclick="nxtQA(null)"
+            >
+              <div class="flex flex-row items-center gap-4">
+                <i
+                  class="p-4 duration-300 bg-gray-200 rounded-full fa-solid fa-check group-hover:bg-gradient-to-br from-blue-400 to-blue-500 group-hover:shadow-md group-hover:text-white"
+                ></i>
+                <h3 class="group-hover:text-white">Start the test</h3>
+              </div>
+              <i
+                class="text-xs rounded-full fa-solid fa-chevron-right group-hover:text-white"
+              ></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"
+    integrity="sha512-Eak/29OTpb36LLo2r47IpVzPBLXnAMPAVypbSZiZ4Qkf8p/7S/XRG5xp7OKWPPYfJT6metI+IORkR5G8F900+g=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script>
+  <script>
+    new WOW().init();
+  </script>
+
+  <script>
+    const gigaChadQA = {
+      0: {
+        type: 1,
+        question: "Discover if you are a real Gigachad",
+        answers: ["Start the test"],
+      },
+      1: {
+        type: 1,
+        question: "What does your family think of you?",
+        answers: [
+          "I am the shame of the family",
+          "They like me but I make them a little ashame",
+          "Nothing more than for the others",
+          "They are rather proud of me",
+          "I am the pride of the family",
+        ],
+      },
+      2: {
+        type: 2,
+        question: "It's hard to make you feel anxious.",
+        answers: ["", "", "", "", ""],
+      },
+      3: {
+        type: 2,
+        question: "You are often enthusiastic about taking on new projects.",
+        answers: ["", "", "", "", ""],
+      },
+      4: {
+        type: 1,
+        question: "When you talk to a person of the opposite sex:",
+        answers: [
+          "You never talk to them",
+          "You are uncomfortable, blush, stutter",
+          "You are a little stressed",
+          "You are quite comfortable",
+          "You are very comfortable and seduce them quickly",
+        ],
+      },
+      5: {
+        type: 1,
+        question: "How often do you touch grass?",
+        answers: [
+          "I don't go outside",
+          "Once every month",
+          "Once or twice a week",
+          "Every day",
+        ],
+      },
+      6: {
+        type: 1,
+        question: "How do you usually dress?",
+        answers: [
+          "Sloppy",
+          "Streetwear",
+          "Casual",
+          "Business casual",
+          "Formal",
+        ],
+      },
+      7: {
+        type: 1,
+        question: "How often do you exercise?",
+        answers: [
+          "I don't exercise",
+          "Once every month",
+          "Once or twice a week",
+          "Three of four times a week",
+          "Five or six times a week",
+          "Every day",
+        ],
+      },
+      8: {
+        type: 1,
+        question: "What best describes your online presence?",
+        answers: [
+          "I am a totally passive spectator",
+          "I produce less content than I consume",
+          "I produce as much content as I consume",
+          "I produce 10 times more content than I consume",
+        ],
+      },
+      9: {
+        type: 2,
+        question:
+          "You have a clear idea of what you want to achieve in the next few years.",
+        answers: ["", "", "", "", ""],
+      },
+      10: {
+        type: 1,
+        question: "What best describes your diet ?",
+        answers: [
+          "Excessive/Insufficient caloric intake",
+          "Normal caloric intake but bad macros",
+          "Casual diet",
+          "Good macros but poor micronutrients intake",
+          "Perfect balance of macro- and micronutrients",
+        ],
+      },
+      11: {
+        type: 1,
+        question: "What type of food do you mainly consume?",
+        answers: [
+          "Mostly processed food",
+          "Average western diet",
+          "Mostly natural and some processed food",
+          "Only natural and organic foods",
+        ],
+      },
+      12: {
+        type: 1,
+        question: "Do you track your food on an app ? (eg. MyFitnessPal)",
+        answers: [
+          "Never",
+          "Sometimes",
+          "Most of the time",
+          "I've learned to do it mentally",
+        ],
+      },
+      13: {
+        type: 1,
+        question: "How often do you meditate ?",
+        answers: [
+          "I don't meditate",
+          "Once every month",
+          "Once or twice a week",
+          "Three of four times a week",
+          "Five or six times a week",
+          "Every day",
+          "Throughout the day, whenever I have free time",
+        ],
+      },
+      14: {
+        type: 2,
+        question:
+          "You are willing to take the risk of failure in order to achieve significant gains.",
+        answers: ["", "", "", "", ""],
+      },
+      15: {
+        type: 2,
+        question: "Would you say that you are admired by others?",
+        answers: ["", "", "", "", ""],
+      },
+      16: {
+        type: 1,
+        question: "How often do you flake out on a responsibility?",
+        answers: [
+          "Everyday",
+          "Once or twice a week",
+          "Once or twice a month",
+          "Less than one time per month",
+          "Never",
+        ],
+      },
+      17: {
+        type: 1,
+        question: "How easy is it for you to get laid?",
+        answers: ["Impossible", "Very hard", "Very easy", "Average"],
+      },
+      18: {
+        type: 1,
+        question:
+          "Would you consider yourself to be dependable and trustworthy?",
+        answers: ["No", "Sometimes", "Yes"],
+      },
+      19: {
+        type: 1,
+        question: "Are you financially independent ",
+        answers: ["No", "Yes", "Yes by far"],
+      },
+      20: {
+        type: 1,
+        question: "How often do you play video games?",
+        answers: [
+          "More than five hours per day",
+          "Two to five hours per day",
+          "Two to five hours per week",
+          "Less than two hours per week",
+          "Never",
+        ],
+      },
+      21: {
+        type: 1,
+        question: "How much time do you spend on social media?",
+        answers: [
+          "More than five hours per day",
+          "Two to five hours per day",
+          "Two to five hours per week",
+          "Less than two hours per week",
+          "Never",
+        ],
+      },
+      22: {
+        type: 1,
+        question: "How many languages do you speak?",
+        answers: ["None", "One", "Two", "Three or more"],
+      },
+      23: {
+        type: 2,
+        question: "You are optimistic about your future.",
+        answers: ["", "", "", "", ""],
+      },
+      24: {
+        type: 1,
+        question:
+          "When was the last time someone said that you were an inspiration to them?",
+        answers: ["Never", "Last year", "Last month", "Last week"],
+      },
+      25: {
+        type: 1,
+        question:
+          "When was the last time someone told you that you make them feel safe?",
+        answers: [
+          "Never",
+          "Once in my life",
+          "Last year",
+          "Last month",
+          "Last week",
+        ],
+      },
+      26: {
+        type: 2,
+        question:
+          "Do people around you tend to improve their lives after they've met you?",
+        answers: ["", "", "", "", ""],
+      },
+      27: {
+        type: 2,
+        question: "Blackpill theory is mostly bullshit.",
+        answers: ["", "", "", "", ""],
+      },
+      28: {
+        type: 2,
+        question: "You train to feel good rather than for the look of others.",
+        answers: ["", "", "", "", ""],
+      },
+      29: {
+        type: 1,
+        question: "Do you own shares or ETFs?",
+        answers: ["No", "Yes"],
+      },
+      30: {
+        type: 1,
+        question: "How do you like to shower?",
+        answers: ["In hot water", "In freezing water"],
+      },
+      31: {
+        type: 1,
+        question: "When was the last time you had an unnecessary argument?",
+        answers: ["Today", "Last week", "Last month", "Last year"],
+      },
+      32: {
+        type: 2,
+        question: "You don't like to watch anime",
+        answers: ["", "", "", "", ""],
+      },
+      33: {
+        type: 1,
+        question:
+          "When was the last time you performed a random act of kindness?",
+        answers: [
+          "Never",
+          "Once in my life",
+          "Last year",
+          "Last month",
+          "Last week",
+        ],
+      },
+      34: {
+        type: 1,
+        question: "When was the last time you lied to someone or yourself?",
+        answers: ["Today", "Last week", "Last month", "Last year", "Never"],
+      },
+      35: {
+        type: 2,
+        question: "You are able to defend yourself and those you love.",
+        answers: ["", "", "", "", ""],
+      },
+
+      36: {
+        type: 2,
+        question: "You wake up easily every morning.",
+        answers: ["", "", "", "", ""],
+      },
+
+      37: {
+        type: 1,
+        question: "How many sources of income do you have?",
+        answers: ["Zero", "One", "Two to five", "More than five"],
+      },
+
+      38: {
+        type: 1,
+        question: "Do you have a stimulating professional network?",
+        answers: ["No", "Not really", "Yes"],
+      },
+
+      39: {
+        type: 1,
+        question: "How often do you fap?",
+        answers: [
+          "Several times per day",
+          "Once per day",
+          "Two to five times a week",
+          "One time a week",
+          "Less than one time a week",
+        ],
+      },
+
+      40: {
+        type: 2,
+        question:
+          "You put into practice the majority of the information you consume",
+        answers: ["", "", "", "", ""],
+      },
+
+      41: {
+        type: 1,
+        question:
+          "When was the last time you did something detrimental to your health?",
+        answers: ["Today", "Last week", "Last month", "Last year"],
+      },
+
+      42: {
+        type: 2,
+        question: "Your body language project confidence",
+        answers: ["", "", "", "", ""],
+      },
+
+      43: {
+        type: 1,
+        question: "When was the last time you disrespected someone?",
+        answers: ["Today", "Last week", "Last month", "Last year", "Never"],
+      },
+
+      44: {
+        type: 1,
+        question: "Did you learn something today?",
+        answers: ["No", "Yes"],
+      },
+
+      45: {
+        type: 2,
+        question: "You are humble",
+        answers: ["", "", "", "", ""],
+      },
+
+      46: {
+        type: 1,
+        question:
+          "How many months of living expenses does your emergency fund cover? ",
+        answers: [
+          "Zero",
+          "One month",
+          "2 to 3 month",
+          "3 to 6 month",
+          "More than 6 months",
+        ],
+      },
+
+      47: {
+        type: 1,
+        question: "Do you own your home?",
+        answers: ["No", "Yes on credit", "Yes"],
+      },
+
+      48: {
+        type: 2,
+        question: "You don't have any addiction",
+        answers: ["", "", "", "", ""],
+      },
+
+      49: {
+        type: 1,
+        question: "What percentage of your income do you save each month?",
+        answers: [
+          "Zero %",
+          "1 to 10%",
+          "10 to 30%",
+          "30 to 50%",
+          "More than 50%",
+        ],
+      },
+
+      50: {
+        type: 2,
+        question: "You rarely have negative thoughts",
+        answers: ["", "", "", "", ""],
+      },
+
+      51: {
+        type: 1,
+        question: "Have you been vaccinated against covid-19",
+        answers: ["No", "Yes"],
+      },
+
+      52: {
+        type: 2,
+        question:
+          "You do the hard work especially when you don't feel like it.",
+        answers: ["", "", "", "", ""],
+      },
+      53: {
+        type: 1,
+        question: "How often do you watch porn?",
+        answers: [
+          "Several times per day",
+          "Once per day",
+          "Two to five times a week",
+          "One time a week",
+          "Less than on time per week",
+          "Less than on time per month",
+          "Never",
+        ],
+      },
+      54: {
+        type: 2,
+        question: "You are thankful for what you have.",
+        answers: ["", "", "", "", ""],
+      },
+      55: {
+        type: 2,
+        question:
+          "You focus on what really matters and ignore the unnecessary.",
+        answers: ["", "", "", "", ""],
+      },
+      56: {
+        type: 1,
+        question: "How many books did you read last year?",
+        answers: [
+          "Zero",
+          "1 to 5 books",
+          "6 to 20 books",
+          "21 to 50 books",
+          "More than 50 books",
+        ],
+      },
+      57: {
+        type: 2,
+        question: "You rarely argue on the internet",
+        answers: ["", "", "", "", ""],
+      },
+      58: {
+        type: 1,
+        question: "How would you describe your social circle?",
+        answers: [
+          "Destructive relationship",
+          "I don't have friends",
+          "Average",
+          "A highly skilled and motivated tribe that pulls me up",
+        ],
+      },
+      59: {
+        type: 2,
+        question: "You live in a clean and organized environment",
+        answers: ["", "", "", "", ""],
+      },
+      60: {
+        type: 1,
+        question: "How would you describe your ability to focus?",
+        answers: [
+          "Close to null",
+          "Worse than average",
+          "Average",
+          "Better than average",
+          "Flow state",
+        ],
+      },
+    };
+
+    let res = new Array(60);
+    // res.fill(0.7);
+    let curr = 0;
+
+    function updateScore(pts) {
+      res[curr - 1] = pts;
+      // console.log(curr, res);
+    }
+
+    function updateQuestion() {
+      return `<h2 id="question" class="text-3xl font-semibold wow fadeIn">${gigaChadQA[curr].question}</h2>`;
+    }
+
+    function updateAnswers() {
+      let out = `<div
+            class="flex flex-col gap-4 px-8 py-4 pb-12 bg-white lg:rounded-b-lg wow fadeIn" data-wow-delay="0.2s"
+          >`;
+      let len = gigaChadQA[curr].answers.length - 1;
+      if (gigaChadQA[curr].type === 1) {
+        let t = 0.3;
+        gigaChadQA[curr].answers.forEach((q, i) => {
+          out += `<button
+            class="group flex flex-row justify-between items-center gap-8 bg-gray-100 hover:bg-gradient-to-br from-zinc-700 to-gray-600 p-4 rounded-xl border border-zinc-200 shadow-md focus:outline-none transition duration-300 hover:scale-105 lg:hover:scale-x-[102%] wow fadeIn"
+            data-wow-delay="${t}s"
+            onclick="nxtQA(${i / len})"
+          >
+            <div class="flex flex-row items-center gap-4">
+              <i
+                class="p-4 duration-300 bg-gray-200 rounded-full fa-solid fa-check group-hover:bg-gradient-to-br from-blue-400 to-blue-500 group-hover:shadow-md group-hover:text-white"
+              ></i>
+              <h3 class="group-hover:text-white">${q}</h3>
+            </div>
+            <i
+              class="text-xs rounded-full fa-solid fa-chevron-right group-hover:text-white"
+            ></i>
+          </button>`;
+          t += 0.1;
+        });
+      } else {
+        out += ` <div class="flex flex-col items-center justify-center gap-4 p-8 bg-gray-100 border shadow-md lg:mt-8 lg:flex-row rounded-xl border-zinc-200 wow fadeIn">
+          <span class="my-auto text-3xl rob text-zinc-800">Disagree</span>
+                  <input type="number" min="0" oninput="validity.valid||(value='');" class="hidden" value="0"></input>
+                <button onclick="nxtQA(${0})" class="w-20 h-20 mx-4 my-auto text-white duration-300 transform border-8 rounded-full bg-gradient-to-br from-zinc-700 to-gray-600 hover:to-zinc-600 hover:border-red-500 focus:bg-red-500 focus:border-red-500 focus:outline-none">&nbsp</button>
+                <button onclick="nxtQA(${
+                  1 / 4
+                })" class="w-16 h-16 mx-4 my-auto text-white duration-300 transform border-8 rounded-full bg-gradient-to-br from-zinc-700 to-gray-600 hover:to-zinc-600 hover:border-red-400 focus:bg-red-400 focus:border-red-400 focus:outline-none">&nbsp</button>
+                <button onclick="nxtQA(${
+                  2 / 4
+                })" class="w-12 h-12 mx-4 my-auto text-white duration-300 transform border-8 rounded-full bg-gradient-to-br from-zinc-700 to-gray-600 hover:to-zinc-600 hover:border-gray-400 focus:bg-gray-400 focus:border-gray-400 focus:outline-none">&nbsp</button>
+                <button onclick="nxtQA(${
+                  3 / 4
+                })" class="w-16 h-16 mx-4 my-auto text-white duration-300 transform border-8 rounded-full bg-gradient-to-br from-zinc-700 to-gray-600 hover:to-zinc-600 hover:border-blue-400 focus:bg-blue-400 focus:border-blue-400 focus:outline-none">&nbsp</button>
+                <button onclick="nxtQA(${
+                  4 / 4
+                })" class="w-20 h-20 mx-4 my-auto text-white duration-300 transform border-8 rounded-full rob bg-gradient-to-br from-zinc-700 to-gray-600 hover:to-zinc-600 hover:border-blue-500 focus:bg-blue-500 focus:border-blue-500 focus:outline-none">&nbsp</button>
+                <span class="my-auto text-3xl rob text-zinc-800">Agree</span>
+        </div>
+                </div>`;
+      }
+      out += `</div>`;
+      return out;
+    }
+
+    function finishAnimation(percentage) {
+      const adonisB = document.getElementById("adonis-bottom");
+
+      setTimeout(() => {
+        adonisB.classList = `adonis-blue h-[${
+          150 * percentage
+        }px] w-[150px] lg:h-[${
+          300 * percentage
+        }px] lg:w-[300px] bg-bottom transform duration-1000 bg-[url('./adonis.png')] lg:bg-[url('./adonis-l.png')]`;
+      }, 500);
+
+      var speed = 1000;
+      function incEltNbr(id) {
+        elt = document.getElementById(id);
+        endNbr = Number(document.getElementById(id).innerHTML);
+        incNbrRec(0, endNbr, elt);
+      }
+
+      function incNbrRec(i, endNbr, elt) {
+        if (i <= endNbr) {
+          elt.innerHTML = i;
+          setTimeout(function () {
+            incNbrRec(i + 1, endNbr, elt);
+          }, speed / endNbr);
+        }
+      }
+
+      incEltNbr("percentage");
+      incEltNbr("mindsetP");
+      incEltNbr("disciplineP");
+      incEltNbr("healthP");
+      incEltNbr("socialP");
+      incEltNbr("wealthP");
+    }
+
+    function createPorgressBar(j, p, delay) {
+      let style = document.createElement("style");
+      style.type = "text/css";
+      style.innerHTML = `.progress-moved .progress-bar${j} {
+      width: ${Math.round(p * 100)}%;
+      background-color: #38bdf8;
+      animation: progressAnimation${j} 2s;
+      animation-delay: ${1 + delay}s;
+    }
+
+    @keyframes progressAnimation${j} {
+      0% {
+        width: 0%;
+        background-color: #6192e1;
+      }
+      100% {
+        width: ${Math.round(p * 100)}%;
+        background-color: #38bdf8;
+      }
+    }`;
+      document.getElementsByTagName("head")[0].appendChild(style);
+    }
+
+    function sumArrayAtIndex(arr, indexes) {
+      let sum = 0;
+      indexes.forEach((i) => {
+        sum += res[i];
+        // console.log(res[i], sum);
+      });
+      return sum;
+    }
+
+    function finishTest() {
+      let sum = res.reduce((partialSum, a) => partialSum + a, 0);
+      let percentage = sum / res.length;
+
+      let mindsetI = [2, 3, 9, 14, 23, 27, 34, 36, 40, 44, 45, 50, 54, 55, 57];
+      let disciplineI = [
+        8, 13, 16, 18, 19, 20, 28, 30, 36, 39, 40, 52, 53, 56, 59,
+      ];
+      let healthI = [5, 7, 10, 11, 12, 35, 39, 41, 53];
+      let socialI = [1, 4, 15, 17, 24, 25, 26, 31, 33, 42, 43, 55, 58];
+      let wealthI = [6, 14, 18, 19, 22, 29, 33, 37, 38, 46, 47, 49, 56];
+
+      let mindsetP = sumArrayAtIndex(res, mindsetI) / mindsetI.length;
+      let disciplineP = sumArrayAtIndex(res, disciplineI) / disciplineI.length;
+      let healthP = sumArrayAtIndex(res, healthI) / healthI.length;
+      let socialP = sumArrayAtIndex(res, socialI) / socialI.length;
+      let wealthP = sumArrayAtIndex(res, wealthI) / wealthI.length;
+
+      createPorgressBar(1, mindsetP, 0);
+      createPorgressBar(2, disciplineP, 0.1);
+      createPorgressBar(3, healthP, 0.2);
+      createPorgressBar(4, socialP, 0.3);
+      createPorgressBar(5, wealthP, 0.4);
+
+      // console.log(mindsetP, disciplineP, healthP, socialP, wealthP);
+
+      const main = document.getElementById("main");
+      main.innerHTML = `<div
+        class="flex flex-col justify-center mx-auto mt-12 lg:flex-row lg:gap-0 lg:w-4/5"
+      >
+        <div
+          class="flex flex-col gap-8 py-8 bg-white border-gray-200 shadow-lg lg:w-1/2 lg:border-r lg:rounded-l-lg wow fadeIn"
+        >
+          <h2 class="px-8 text-4xl font-semibold drop-shadow-xl">Score</h2>
+          <div
+            class="flex flex-row items-center justify-center w-11/12 gap-4 pt-4 mx-auto text-4xl text-white transition rounded shadow-xl bg-gradient-to-b from-zinc-800 to-gray-700 lg:w-full lg:-ml-12 backdrop-blur-lg"
+            data-wow-delay=".3s"
+          >
+            <div class="z-20 rounded-full">
+              <div
+                class="z-10 absolute h-[{150px}] w-[150px] lg:h-[300px] lg:w-[300px] bottom-0 bg-[#006fe6] shadow shadow-blue-300 blur-xl opacity-25 rounded-t-full rounded-b-xl"
+              ></div>
+              <div class="z-40">
+                <div
+                  id="adonis-top"
+                  class="z-40 adonis h-[${
+                    150 * (1 - percentage)
+                  }px] w-[150px] lg:h-[${
+        300 * (1 - percentage)
+      }px] lg:w-[300px] bg-top transform duration-1000 bg-[url('./adonis.png')] lg:bg-[url('./adonis-l.png')]"
+                ></div>
+                <div
+                  id="adonis-bottom"
+                  class="z-40 adonis h-[${
+                    150 * percentage
+                  }px] w-[150px] lg:h-[${
+        300 * percentage
+      }px] lg:w-[300px] bg-bottom transform duration-1000 bg-[url('./adonis.png')] lg:bg-[url('./adonis-l.png')]"
+                ></div>
+              </div>
+            </div>
+            <div class="z-40 p-4 rounded-full cursor-default">
+              <span id="percentage" class="text-5xl">${Math.round(
+                percentage * 100
+              )}</span><span>%</span>
+            </div>
+          </div>
+          <div class="flex flex-col items-start justify-center">
+            <p class="px-8 max-w-[72ch] italic">
+              « How long are you going to wait before you demand the best for
+              yourself? »
+              <span class="non-italic">– Epictetus</span>
+            </p>
+          </div>
+        </div>
+        <div
+          class="flex flex-col gap-8 py-8 text-white lg:w-1/2 bg-gradient-to-b from-zinc-800 to-gray-700 opacity-95 backdrop-blur-lg lg:rounded-r-lg wow fadeIn"
+        >
+          <h2 class="px-8 text-4xl font-semibold">Details</h2>
+          <div class="flex flex-col gap-5 mb-3">
+            <div class="px-10 wow fadeIn" data-wow-delay="1s">
+              <div
+                class="flex flex-row justify-between text-white cursor-default"
+              >
+                <h3 class="text-xl font-medium">Mindset</h3>
+                <h4 class="py-1 font-medium"><span id="mindsetP">${Math.round(
+                  mindsetP * 100
+                )}</span>%</h4>
+              </div>
+              <div class="rounded-sm progress-moved bg-zinc-900">
+                <div
+                  class="progress-bar1 h-2.5 shadow-inner shadow-blue-500"
+                ></div>
+              </div>
+            </div>
+            <div class="px-10 wow fadeIn" data-wow-delay="1.1s">
+              <div
+                class="flex flex-row justify-between text-white cursor-default"
+              >
+                <h3 class="text-xl font-medium">Discipline</h3>
+                <h4 class="py-1 font-medium"><span id="disciplineP">${Math.round(
+                  disciplineP * 100
+                )}</span>%</h4>
+              </div>
+              <div class="rounded-sm progress-moved bg-zinc-900">
+                <div
+                  class="progress-bar2 h-2.5 shadow-inner shadow-blue-500"
+                ></div>
+              </div>
+            </div>
+            <div class="px-10 wow fadeIn" data-wow-delay="1.2s">
+              <div
+                class="flex flex-row justify-between text-white cursor-default"
+              >
+                <h3 class="py-1 text-xl font-medium">Health and Fitness</h3>
+                <h4 class="py-1 font-medium"><span id="healthP">${Math.round(
+                  healthP * 100
+                )}</span>%</h4>
+              </div>
+              <div class="rounded-sm progress-moved bg-zinc-900">
+                <div
+                  class="progress-bar3 h-2.5 shadow-inner shadow-blue-500"
+                ></div>
+              </div>
+            </div>
+            <div class="px-10 wow fadeIn" data-wow-delay="1.3s">
+              <div
+                class="flex flex-row justify-between text-white cursor-default"
+              >
+                <h3 class="py-1 text-xl font-medium">Interpersonal Skills</h3>
+                <h4 class="py-1 font-medium"><span id="socialP">${Math.round(
+                  socialP * 100
+                )}</span>%</h4>
+              </div>
+              <div class="rounded-sm progress-moved bg-zinc-900">
+                <div
+                  class="progress-bar4 h-2.5 shadow-inner shadow-blue-500"
+                ></div>
+              </div>
+            </div>
+            <div class="px-10 wow fadeIn" data-wow-delay="1.4s">
+              <div
+                class="flex flex-row justify-between text-white cursor-default"
+              >
+                <h3 class="py-1 text-xl font-medium">Wealth</h3>
+                <h4 class="py-1 font-medium"><span id="wealthP">${Math.round(
+                  wealthP * 100
+                )}</span>%</h4>
+              </div>
+              <div class="rounded-sm progress-moved bg-zinc-900">
+                <div
+                  class="progress-bar5 h-2.5 shadow-inner shadow-blue-500"
+                  data-wow-delay="1.5s"
+                ></div>
+              </div>
+            </div>
+          </div>
+          <div class="px-10 flex flex-col items-start gap-1">
+            <h3>Join our Discord server to reach 100%:</h3>
+            <a
+              class="bg-[#e74026] rounded text-white font-medium 0 p-3 text-lg transition duration-300"
+              href="https://discord.com/invite/9pNKaX3GXv"
+              target="_blank"
+              >Discord.gg/9pNKaX3GXv</a
+            >
+          </div>
+        </div>
+      </div>`;
+
+      finishAnimation(percentage);
+    }
+
+    function nxtQA(pts) {
+      curr += 1;
+      if (curr > 60) {
+        finishTest();
+      } else {
+        if (curr > 3) {
+          let tL = document.getElementById("topLink");
+          tL.classList.remove("invisible");
+        }
+        const question = document.getElementById("question");
+        const answers = document.getElementById("answers");
+        const counter = document.getElementById("currentQ");
+
+        question.innerHTML = updateQuestion();
+        answers.classList.add("invisible");
+        setTimeout(() => {
+          answers.classList.remove("invisible");
+        }, 100);
+
+        answers.innerHTML = updateAnswers();
+        counter.innerText = curr.toString();
+
+        updateScore(pts);
+      }
+    }
+
+    function prevQA() {
+      if (curr > 1) {
+        curr -= 1;
+
+        const question = document.getElementById("question");
+        const answers = document.getElementById("answers");
+        const counter = document.getElementById("currentQ");
+
+        question.innerHTML = updateQuestion();
+        answers.classList.add("invisible");
+        setTimeout(() => {
+          answers.classList.remove("invisible");
+        }, 100);
+
+        answers.innerHTML = updateAnswers();
+        counter.innerText = curr.toString();
+      }
+    }
+  </script>
+
+  <script></script>
+</html>
+
+<!-- Cold shower, Rat race,  -->
